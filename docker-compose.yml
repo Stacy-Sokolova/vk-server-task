@@ -1,0 +1,29 @@
+services:
+
+  db:
+    restart: always
+    image: postgres:latest
+    env_file:
+      - .env
+    volumes:
+    - ./schema/:/docker-entrypoint-initdb.d
+    - pg-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - 5432:5432
+
+  app:
+    build: ./
+    command: ./wait-for-postgres.sh db ./app
+    env_file:
+      - .env
+    ports:
+      - ${HTTP_PORT}:${HTTP_PORT}
+    depends_on:
+      - db
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
+volumes:
+  pg-data:
