@@ -6,6 +6,8 @@ import (
 	"vk-server-task/internal/storage"
 )
 
+//go:generate mockgen -source=service.go -destination=mocks/mock.go
+
 type Auth interface {
 	ParseToken(accessToken string) (int, error)
 	CreateUser(ctx context.Context, login, password string) (*models.User, string, error)
@@ -13,7 +15,7 @@ type Auth interface {
 }
 
 type Ads interface {
-	Create(ctx context.Context, userId int, params *CreateRequest) (*models.Ads, error)
+	Create(ctx context.Context, userId int, params CreateRequest) (*models.Ads, error)
 	Get(ctx context.Context, userId int, params models.AdsParams) ([]models.AdsResponse, error)
 }
 

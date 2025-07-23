@@ -32,7 +32,7 @@ func (h *Handler) Create(c *gin.Context) {
 		return
 	}
 
-	resp, err := h.service.Create(c.Request.Context(), userId, &input)
+	resp, err := h.service.Create(c.Request.Context(), userId, input)
 	if err != nil {
 		logrus.Errorf("failed to create ad: %s", err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to create ad"})

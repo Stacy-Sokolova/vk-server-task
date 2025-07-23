@@ -11,7 +11,7 @@ import (
 type CreateRequest struct {
 	Title       string  `json:"title" binding:"required,min=1,max=100"`
 	Description string  `json:"description" binding:"required,min=1,max=1000"`
-	ImageURL    string  `json:"image_url" binding:"required,url,max=2048,imageurl"`
+	ImageURL    string  `json:"image_url" binding:"required,url,max=2048"`
 	Price       float64 `json:"price" binding:"required,gt=0"`
 }
 
@@ -23,7 +23,7 @@ func NewAdsService(s storage.Ads) *AdsService {
 	return &AdsService{storage: s}
 }
 
-func (s *AdsService) Create(ctx context.Context, userId int, params *CreateRequest) (*models.Ads, error) {
+func (s *AdsService) Create(ctx context.Context, userId int, params CreateRequest) (*models.Ads, error) {
 	ad := &models.Ads{
 		Title:       params.Title,
 		Description: params.Description,
