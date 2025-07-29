@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"vk-server-task/internal/metrics"
 	"vk-server-task/internal/service"
 
 	"github.com/gin-gonic/gin"
@@ -18,6 +19,8 @@ func New(s *service.Service) *Handler {
 
 func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.New()
+
+	router.Use(metrics.GinPrometheusMiddleware())
 
 	auth := router.Group("/auth")
 	{

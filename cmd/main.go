@@ -40,9 +40,9 @@ func main() {
 	service := service.New(storage)
 	handler := handler.New(service)
 
-	srv := new(app.Server)
+	srv := app.NewServer(os.Getenv("HTTP_PORT"), handler.InitRoutes())
 	go func() {
-		if err := srv.Run(os.Getenv("HTTP_PORT"), handler.InitRoutes()); err != nil {
+		if err := srv.Run(); err != nil {
 			logrus.Fatalf("error occured while running http server: %s", err.Error())
 		}
 	}()
