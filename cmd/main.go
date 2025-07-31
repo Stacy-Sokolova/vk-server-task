@@ -24,7 +24,7 @@ func main() {
 
 	rootCtx := context.Background()
 	db, err := postgres.NewPostgresDB(rootCtx, postgres.Config{
-		Host:     os.Getenv("POSTGRES_HOST"),
+		Host:     os.Getenv("DB_HOST"),
 		Port:     os.Getenv("POSTGRES_PORT"),
 		Username: os.Getenv("POSTGRES_USER"),
 		DBName:   os.Getenv("POSTGRES_DB"),

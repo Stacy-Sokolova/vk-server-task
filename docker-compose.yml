@@ -12,18 +12,38 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     ports:
       - 5432:5432
+    networks:
+     - myserver
 
   app:
+    container_name: vk_app
     build: ./
     command: ./wait-for-postgres.sh db ./app
     env_file:
       - .env
-    ports:
-      - ${HTTP_PORT}:${HTTP_PORT}
     depends_on:
       - db
     environment:
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - DB_PASSWORD=${DB_PASSWORD}
+    ports:
+      - ${HTTP_PORT}:${HTTP_PORT}
+    networks:
+     - myserver
+
+  prometheus:
+    image: prom/prometheus:latest
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - 9090:9090
+    networks:
+     - myserver
 
 volumes:
   pg-data:
+
+networks:
+  myserver:
+    driver: bridge
