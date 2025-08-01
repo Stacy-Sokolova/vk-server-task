@@ -41,8 +41,24 @@ services:
     networks:
      - myserver
 
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - 3000:3000
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana.yml:/etc/grafana/provisioning/datasources/datasource.yml
+    environment:
+      - GF_SECURITY_ADMIN_USER=stacysv17
+      - GF_SECURITY_ADMIN_PASSWORD=b!n6H7!zekMYwjA
+    depends_on:
+      - prometheus
+    networks:
+      - myserver
+
 volumes:
   pg-data:
+  grafana-data:
 
 networks:
   myserver:
